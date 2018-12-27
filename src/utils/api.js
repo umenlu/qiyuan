@@ -123,7 +123,6 @@ const authRequest = async (options, showLoading = true) => {
   return request(options, showLoading)
 }
 
-
 export default {
   request,
   authRequest,

@@ -43,6 +43,12 @@ export default class extends wepy.app {
       'pages/auth/login',
       'pages/auth/register'
     ],
+    'plugins': {
+      'qcloudsms': {
+        'version': '1.0.5',
+        'provider': 'wx4718484ed6fb9393'
+      }
+    },
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
