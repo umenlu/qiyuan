@@ -203,7 +203,7 @@
           // 跳转到我的页面
           setTimeout(function() {
             wepy.switchTab({
-              url: '/pages/user'
+              url: '/pages/users/me'
             })
           }, 2000)
         }
@@ -318,7 +318,6 @@
               expiredAt: Date.parse(codeResponse.data.expired_at)
             }
             // 关闭modal
-            console.log(codeResponse.data.phone_code)
             this.captchaModalHidden = true
             // 手机输入框 disabled
             this.phoneDisabled = true
