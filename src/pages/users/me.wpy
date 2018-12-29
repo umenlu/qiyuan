@@ -58,11 +58,20 @@
           <view class="weui-cell__bd" url="">
             <view class="weui-cell__bd">客服</view>
           </view>
-          <view class="weui-cell__ft">{{ user.vip_belong }}</view>
+          <view wx:if="{{ user.vip_belong == '' }}">
+            <view class="weui-cell__ft">等待分配</view>
+          </view>
+          <view wx:else>
+            <view class="weui-cell__ft">{{ user.vip_belong }}</view>
+          </view>
+
         </navigator>
-      </view>
-      <view class="page__bd page__bd_spacing logout">
-        <button class="weui-btn" type="warn" wx:if="{{ user }}" @tap="logout">退出登录</button>
+        <navigator class="weui-cell weui-cell_access" url="">
+          <view class="weui-cell__bd" url="">
+            <view class="weui-cell__bd">地址</view>
+          </view>
+          <view class="weui-cell__ft">{{ user.address }}</view>
+        </navigator>
       </view>
     </view>
   </view>

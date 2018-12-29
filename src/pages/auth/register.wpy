@@ -335,7 +335,7 @@
             //     secretid: 'AKID8aVDtBy0jeoeLKco8qa3Wi7lVXTa3oazudZ0',
             //     secretkey: 'jM24yq33lj51g7xxsy2e2q1n8ueztl77981clhas',
             //     mobile: mobile,
-            //     content: '您的手机号：' + mobile + '，验证码：' + smscode + '，请及时完成验证，如不是本人操作请忽略。【腾讯云市场】'
+            //     content: '验证码是：' + smscode + '，登录后手机号将和微信号关联绑定【企元时代】'
             //   },
 
             //   function success(res) {

@@ -1,0 +1,81 @@
+<style lang="less">
+page{
+    background-color: #FFFFFF;
+}
+.avatar-wrap {
+  position: relative;
+  margin-right: 10px;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  display: block;
+  border-radius: 50%;
+}
+.topic-title {
+  padding: 15px;
+}
+image {
+  width: 100%;
+  height: 100%;
+}
+swiper {
+  width: 750rpx;
+  height: 750rpx;
+}
+</style>
+<template>
+  <view class="page">
+    <view class="page__bd">
+      <swiper>
+          <swiper-item>
+            <image src="{{ topic.banner }}" class="slide-image"/>
+          </swiper-item>
+      </swiper>
+      <view class="topic-title">
+        <view class="page__title">{{ topic.title }}</view>
+      </view>
+      <view class="weui-article">
+        <rich-text nodes="{{ topic.body }}" bindtap="tap"></rich-text>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import api from '@/utils/api'
+
+  export default class IndexShow extends wepy.page {
+    config = {
+      navigationBarTitleText: '详情'
+    }
+    data = {
+      // 话题数据
+      topic: null
+    }
+    // 获取话题数据
+    async getTopic(id) {
+      try {
+        let topicResponse = await api.request({
+          url: 'topics/' + id,
+          data: {
+            include: 'user,category'
+          }
+        })
+        let topic = topicResponse.data
+        // topic.body = topic.body.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ')
+        this.topic = topic
+        this.$apply()
+      } catch (err) {
+        console.log(err)
+        wepy.showModal({
+          title: '提示',
+          content: '服务器错误，请联系管理员'
+        })
+      }
+    }
+    onLoad(options) {
+      this.getTopic(options.id)
+    }
+  }
+</script>

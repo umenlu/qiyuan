@@ -47,36 +47,34 @@
 <template>
 <view class="page">
   <view class="page__bd">
-    <!-- 菜单栏目 -->
-    <view class="margin-top">
-      <view class="weui-flex">
-        <repeat for="{{navs}}" key="id" index="index" item="nav">
+    <!-- 顶部banner -->
+    <view class="banner">
+      <swiper
+        indicator-dots="true"
+        autoplay="true"
+        interval="4000"
+        duration="500"
+      >
+        <block wx:for="{{imgUrls}}">
+          <swiper-item>
+            <image src="{{item.banner}}" class="slide-image"/>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
 
-            <view class="weui-flex__item"><navigator url="/pages/main/list?id={{nav.id}}"><view class="placeholder images"><view class="image"><image src="{{nav.imgUrl}}"></image></view></view><view class="placeholder">{{nav.name}}</view></navigator></view>
-
-        </repeat>
-      </view>
-     </view>
-    <!-- 所有精选列表 -->
+    <!-- 本地服务 -->
     <view class="weui-panel weui-panel_access">
       <view class="weui-panel__bd">
-        <repeat for="{{ topics }}" key="id" index="index" item="topic">
-          <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
-            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-              <image class="weui-media-box__thumb avatar" src="{{ topic.banner }}" />
-            </view>
-            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-              <view class="weui-media-box__title topic-title">{{ topic.title }}</view>
-
-              <view class="weui-media-box__info topic-info">
-                <view class="weui-media-box__info__meta">{{ topic.category.name }} • </view>
-                <view class="weui-media-box__info__meta">{{ topic.updated_at }}</view>
-              </view>
-            </view>
-          </navigator>
-        </repeat>
-        <view class="weui-loadmore weui-loadmore_line" wx:if="{{ noMoreData }}">
-          <view class="weui-loadmore__tips weui-loadmore__tips_in-line">没有更多数据</view>
+        <view class="page__bd">
+          <view class="weui-grids">
+            <block wx:for="{{topics}}" wx:key="*this">
+              <navigator url="/pages/show/index?id={{item.id}}" class="weui-grid" hover-class="weui-grid_active">
+                  <image class="weui-grid__icon" src="{{ item.banner }}" />
+                  <view class="weui-grid__label">{{ item.title }}</view>
+              </navigator>
+            </block>
+          </view>
         </view>
       </view>
     </view>
@@ -97,40 +95,33 @@
       // 当前分页
       page: 1,
       noMoreData: false,
-      imgUrls: [],
-      navs: [
-        {
-          imgUrl: '../../images/hotel.png',
-          id: 1,
-          name: '酒店住宿'
-        },
-        {
-          imgUrl: '../../images/movie.png',
-          id: 2,
-          name: '特价影票'
-        },
-        {
-          imgUrl: '../../images/fly.png',
-          id: 3,
-          name: '车票机票'
-        },
-        {
-          imgUrl: '../../images/tax.png',
-          id: 4,
-          name: '打车出行'
-        }
-      ]
+      imgUrls: []
+    }
+    // 获取banner图片
+    async getBanners() {
+      try {
+        // 请求话题列表接口
+        let bannerResponse = await api.request({
+          url: 'bannerservice'
+        })
+        this.imgUrls = bannerResponse.data.data
+        this.$apply()
+      } catch (err) {
+        wepy.showModal({
+          title: '提示',
+          content: '服务器错误，请联系管理员'
+        })
+      }
     }
 
     // 获取话题数据
-    async getTopics(id, page = 1, reset = false) {
+    async getTopics(page = 1, reset = false) {
       try {
         // 请求话题列表接口
         let topicsResponse = await api.request({
-          url: 'list',
+          url: 'service',
           data: {
             page: page,
-            category_id: id,
             include: 'user,category'
           }
         })
@@ -168,8 +159,9 @@
       await this.getTopics(this.page)
       this.$apply()
     }
-    async onLoad(options) {
-      this.getTopics(options.id)
+    async onLoad() {
+      this.getTopics()
+      this.getBanners()
     }
   }
 </script>

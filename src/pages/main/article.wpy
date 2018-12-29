@@ -47,21 +47,22 @@
 <template>
 <view class="page">
   <view class="page__bd">
-    <!-- 菜单栏目 -->
-    <view class="margin-top">
-      <view class="weui-flex">
-        <repeat for="{{navs}}" key="id" index="index" item="nav">
+    <!-- 顶部banner -->
+    <view class="banner">
+      <swiper>
+        <block wx:for="{{imgUrls}}">
+          <swiper-item>
+            <image src="{{item.banner}}" class="slide-image"/>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
 
-            <view class="weui-flex__item"><navigator url="/pages/main/list?id={{nav.id}}"><view class="placeholder images"><view class="image"><image src="{{nav.imgUrl}}"></image></view></view><view class="placeholder">{{nav.name}}</view></navigator></view>
-
-        </repeat>
-      </view>
-     </view>
     <!-- 所有精选列表 -->
     <view class="weui-panel weui-panel_access">
       <view class="weui-panel__bd">
         <repeat for="{{ topics }}" key="id" index="index" item="topic">
-          <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+          <navigator url="/pages/show/index?id={{topic.id}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
             <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
               <image class="weui-media-box__thumb avatar" src="{{ topic.banner }}" />
             </view>
@@ -97,40 +98,33 @@
       // 当前分页
       page: 1,
       noMoreData: false,
-      imgUrls: [],
-      navs: [
-        {
-          imgUrl: '../../images/hotel.png',
-          id: 1,
-          name: '酒店住宿'
-        },
-        {
-          imgUrl: '../../images/movie.png',
-          id: 2,
-          name: '特价影票'
-        },
-        {
-          imgUrl: '../../images/fly.png',
-          id: 3,
-          name: '车票机票'
-        },
-        {
-          imgUrl: '../../images/tax.png',
-          id: 4,
-          name: '打车出行'
-        }
-      ]
+      imgUrls: []
+    }
+    // 获取banner图片
+    async getBanners() {
+      try {
+        // 请求话题列表接口
+        let bannerResponse = await api.request({
+          url: 'bannerarticle'
+        })
+        this.imgUrls = bannerResponse.data.data
+        this.$apply()
+      } catch (err) {
+        wepy.showModal({
+          title: '提示',
+          content: '服务器错误，请联系管理员'
+        })
+      }
     }
 
     // 获取话题数据
-    async getTopics(id, page = 1, reset = false) {
+    async getTopics(page = 1, reset = false) {
       try {
         // 请求话题列表接口
         let topicsResponse = await api.request({
-          url: 'list',
+          url: 'article',
           data: {
             page: page,
-            category_id: id,
             include: 'user,category'
           }
         })
@@ -168,8 +162,9 @@
       await this.getTopics(this.page)
       this.$apply()
     }
-    async onLoad(options) {
-      this.getTopics(options.id)
+    async onLoad() {
+      this.getTopics()
+      this.getBanners()
     }
   }
 </script>

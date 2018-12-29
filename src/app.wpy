@@ -41,6 +41,9 @@ export default class extends wepy.app {
     pages: [
       'pages/main/index',
       'pages/main/list',
+      'pages/main/service',
+      'pages/main/article',
+      'pages/show/index',
       'pages/users/me',
       'pages/auth/login',
       'pages/users/edit',
@@ -59,19 +62,32 @@ export default class extends wepy.app {
       navigationBarTextStyle: 'black'
     },
     tabBar: {
-      list: [{
-        pagePath: 'pages/main/index',
-        text: '首页',
-        iconPath: 'images/a.png',
-        selectedIconPath: 'images/a.png'
-      }, {
-        pagePath: 'pages/users/me',
-        text: '我的',
-        iconPath: 'images/a.png',
-        selectedIconPath: 'images/a.png'
-      }],
-      color: '#707070',
-      selectedColor: '#00b5ad'
+      list: [
+        {
+          pagePath: 'pages/main/index',
+          text: '精选',
+          iconPath: 'images/index.png',
+          selectedIconPath: 'images/index_.png'
+        },
+        {
+          pagePath: 'pages/main/service',
+          text: '服务',
+          iconPath: 'images/service.png',
+          selectedIconPath: 'images/service_.png'
+        },
+        {
+          pagePath: 'pages/main/article',
+          text: '资讯',
+          iconPath: 'images/article.png',
+          selectedIconPath: 'images/article_.png'
+        }, {
+          pagePath: 'pages/users/me',
+          text: '我的',
+          iconPath: 'images/me.png',
+          selectedIconPath: 'images/me_.png'
+        }],
+      color: '#515151',
+      selectedColor: '#09BB07'
     }
   }
     // 获取当前登录用户信息
