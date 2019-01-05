@@ -44,6 +44,7 @@ export default class extends wepy.app {
       'pages/main/service',
       'pages/main/article',
       'pages/show/index',
+      'pages/show/video',
       'pages/users/me',
       'pages/auth/login',
       'pages/users/edit',

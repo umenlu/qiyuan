@@ -100,24 +100,24 @@
       imgUrls: [],
       navs: [
         {
-          imgUrl: '../../images/hotel.png',
+          imgUrl: '../../images/product.png',
           id: 1,
-          name: '酒店住宿'
+          name: '产品服务'
         },
         {
-          imgUrl: '../../images/movie.png',
+          imgUrl: '../../images/market.png',
           id: 2,
-          name: '特价影票'
+          name: '市场机会'
         },
         {
-          imgUrl: '../../images/fly.png',
+          imgUrl: '../../images/newer.png',
           id: 3,
-          name: '车票机票'
+          name: '新手入门'
         },
         {
-          imgUrl: '../../images/tax.png',
+          imgUrl: '../../images/get.png',
           id: 4,
-          name: '打车出行'
+          name: '开通办理'
         }
       ]
     }

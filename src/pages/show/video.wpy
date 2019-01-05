@@ -1,0 +1,61 @@
+<style lang="less">
+page{
+    background-color: #FFFFFF;
+}
+video {
+  width: 100%;
+}
+</style>
+<template>
+  <view class="page">
+    <view class="page__bd">
+      <video
+    id="myVideo"
+    src="https://{{ topic.body }}"
+    enable-danmu
+    danmu-btn
+    controls
+  ></video>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import api from '@/utils/api'
+
+  export default class IndexShow extends wepy.page {
+    config = {
+      navigationBarTitleText: '详情'
+    }
+    data = {
+      // 话题数据
+      topic: null
+    }
+    // 获取话题数据
+    async getTopic(id) {
+      try {
+        let topicResponse = await api.request({
+          url: 'topics/' + id,
+          data: {
+            include: 'user,category'
+          }
+        })
+        let topic = topicResponse.data
+        topic.body = topic.body.replace('</p>', '')
+        topic.body = topic.body.replace('<p>', '')
+
+        this.topic = topic
+        this.$apply()
+      } catch (err) {
+        console.log(err)
+        wepy.showModal({
+          title: '提示',
+          content: '服务器错误，请联系管理员'
+        })
+      }
+    }
+    onLoad(options) {
+      this.getTopic(options.id)
+    }
+  }
+</script>
